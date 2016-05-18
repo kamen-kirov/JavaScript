@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <style type="text/css">
+   body {
+      margin: 0;
+      padding: 10px 20px;
+      font-family: Helvetica, Arial, sans-serif;
+      text-align: center;
+   }
+   
+   .gallery {
+      display: inline-block;
+   }
+   
+   .image {
+      float: left;
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+      vertical-align: bottom;
+      text-align: center;
+   }
+   
+   .image:nth-child(3n+1) {
+      clear: left;
+   }
+   
+   .image img {
+      max-width: 100%;
+   }
+   
+   .image a {
+      color: grey;
+      text-decoration: none;
+   }
+   
+   .image span {
+      line-height: 1.5em;
+   }
+   
+   .overlay {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba( 0, 0, 0, .25 );
+   }
+   
+   .lightbox {
+      position: fixed;
+      left: 5%;
+      right: 5%;
+      top: 5%;
+      bottom: 5%;
+      padding: 20px;
+      background: white;
+   }
+   
+   .close {
+      position: absolute;
+      right: -9px;
+      top: -9px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      color: white;
+      background: black;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 50%;
+      cursor: pointer;
+   }
+   
+   .lightbox img {
+      max-width: 100%;
+      height: 100%;
+   }
+   
+   .hidden {
+      display: none;
+   }
+   </style>
+   
+   <script type="text/javascript" src="../../Scripts/helpers.js"></script>
+   <script type="text/javascript" src="../../Scripts/dom_api.js"></script>
+   <script type="text/javascript" src="Scripts/gallery.js"></script>
+   <script type="text/javascript" src="Scripts/gallery_image.js"></script>
+   <script type="text/javascript" src="Scripts/lightbox.js"></script>
+</head>
+<body>
+   <h1>Gallery</h1>
+   <div id="gallery" class="gallery"></div>
+   <script type="text/javascript">
+      Lightbox.init();
+      // create new XHR instance
+      var xhr = new XMLHttpRequest();
+
+      // open the gate :) (set the state to "open")
+      // params: method (GET/POST), url, async (true, false)
+      xhr.open( 'GET', 'http://dekov.net/files/api_get_images.php', true );
+
+      // handle response (here we use old-school technique)
+      xhr.onload = function ( e ) {
+         // print the response
+         var gallery = new Gallery( document.getElementById( 'gallery' ), JSON.parse(this.responseText) );
+      }
+
+      // send the XMLHttpRequest
+      xhr.send();
+   </script>
+</body>
+</html>
